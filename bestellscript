@@ -1,0 +1,242 @@
+<script>
+function selectElementContents(el) {
+var dateCells = document.querySelectorAll('.soso')  ;
+[].forEach.call(dateCells, function(dateCell) {
+textc = dateCell.value;
+var parent = dateCell.parentNode;
+var new_element = document.createElement('span')
+new_element.textContent = textc;
+parent.replaceChild(new_element, dateCell);
+});
+
+var body = document.body, range, sel;
+if (document.createRange && window.getSelection) {
+range = document.createRange();
+sel = window.getSelection();
+sel.removeAllRanges();
+try {
+range.selectNodeContents(el);
+sel.addRange(range);
+} catch (e) {
+range.selectNode(el);
+sel.addRange(range);
+}
+document.execCommand("Copy");
+
+
+
+
+const name = document.getElementById('dataTable');
+
+let data = name.innerText;
+
+const textToBLOB = new Blob([data], { type: 'text/plain' });
+const sFileName = 'formData.txt'; 
+
+let newLink = document.createElement("a");
+newLink.download = sFileName;
+if (window.webkitURL != null) {
+newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+}
+else {
+newLink.href = window.URL.createObjectURL(textToBLOB);
+newLink.style.display = "none";
+document.body.appendChild(newLink);
+}
+newLink.click();
+
+
+} else if (body.createTextRange) {
+range = body.createTextRange();
+range.moveToElementText(el);
+range.select();
+range.execCommand("Copy");
+const name = document.getElementById('dataTable');
+
+let data = name.innerText;
+
+const textToBLOB = new Blob([data], { type: 'text/plain' });
+const sFileName = 'formData.txt'; 
+
+let newLink = document.createElement("a");
+newLink.download = sFileName;
+if (window.webkitURL != null) {
+newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+}
+else {
+newLink.href = window.URL.createObjectURL(textToBLOB);
+newLink.style.display = "none";
+document.body.appendChild(newLink);
+}
+newLink.click();
+}
+}
+
+
+
+
+
+function addRow(tableID) {
+var table = document.getElementById(tableID);
+var rowCount = table.rows.length;
+if (rowCount >= 300) { 
+alert("Maximal 300 Bestellungen je Liste");
+return;
+}
+
+var row = table.insertRow(rowCount);
+
+var cell1 = row.insertCell(0);
+var element1 = document.createElement("input");
+element1.type = "date";
+element1.classList.add("soso");
+cell1.appendChild(element1);
+
+var cell2 = row.insertCell(1);
+cell2.textContent = rowCount;
+kat = cell2.textContent
+var cell3 = row.insertCell(2);
+var element2 = document.createElement("input");
+element2.type = "input";
+element2.name = "opdtion[]";
+cell3.appendChild(element2);
+element2.id = cell2.textContent ;
+element2.classList.add("maxw", "soso");
+
+
+var datalist = document.createElement('datalist');
+datalist.id = kat+"datalist";
+cell3.appendChild(datalist);
+["Äpfel", "Möhren", "Käse"].forEach(function(data) {
+var option = document.createElement('option')
+option.value = data
+datalist.appendChild(option)
+});
+document.getElementById(kat).setAttribute('list', kat+"datalist");
+
+
+
+var cell4 = row.insertCell(3);
+var element4 = document.createElement("input");
+element4.placeholder = "In Gramm";
+element4.classList.add("maxw", "soso");
+element4.type = "number";
+element4.name = "chkwbox[]";
+cell4.textContent = "Gramm: ";
+cell4.appendChild(element4);
+
+var cell5 = row.insertCell(4);
+var element5 = document.createElement("input");
+element5.type = "checkbox";
+element5.name = "chkbox[]";
+cell5.appendChild(element5);
+
+}
+
+function addRow2(tableID) {
+var table = document.getElementById(tableID);
+var rowCount = table.rows.length;
+if (rowCount >= 300) { 
+alert("Nicht mehr als 300 Bestellungen möglich");
+return;
+}
+
+var row = table.insertRow(rowCount);
+
+var cell1 = row.insertCell(0);
+var element1 = document.createElement("input");
+element1.type = "date";
+element1.classList.add("soso");
+cell1.appendChild(element1);
+
+var cell2 = row.insertCell(1);
+cell2.textContent = rowCount;
+kat = cell2.textContent
+var cell3 = row.insertCell(2);
+var element2 = document.createElement("input");
+element2.type = "input";
+element2.name = "opdtion[]";
+cell3.appendChild(element2);
+element2.id = cell2.textContent ;
+element2.classList.add("maxw", "soso");
+
+var datalist = document.createElement('datalist');
+datalist.id = kat+"datalist";
+cell3.appendChild(datalist);
+["Apfelsaft", "Wasser", "Orangensaft"].forEach(function(data) {
+var option = document.createElement('option')
+option.value = data
+datalist.appendChild(option)
+});
+document.getElementById(kat).setAttribute('list', kat+"datalist");
+
+
+
+var cell4 = row.insertCell(3);
+var element4 = document.createElement("input");
+element4.placeholder = "In Milliliter";
+element4.classList.add("maxw", "soso");
+element4.type = "number";
+element4.name = "chkwbox[]";
+cell4.textContent = "Milliliter: ";
+cell4.appendChild(element4);
+
+var cell5 = row.insertCell(4);
+var element5 = document.createElement("input");
+element5.type = "checkbox";
+element5.name = "chkbox[]";
+cell5.appendChild(element5);
+
+}
+
+function deleteRow(tableID) {
+try {
+var table = document.getElementById(tableID);
+var rowCount = table.rows.length;
+for (var i = 0; i < rowCount; i++) {
+var row = table.rows[i];
+var chkbox = row.cells[4].childNodes[0];
+if (null != chkbox && true == chkbox.checked) {
+table.deleteRow(i);
+rowCount--;
+i--;
+}
+}
+} catch (e) {
+alert(e);
+}
+}
+
+</script>
+<noscript><p>Die Suchfunktion benötigt JavaScript!</p></noscript>
+
+<table id="dataTable" class="borderside" >
+<tr>
+
+<th>Abholdatum</th>
+<th>Bestell-Nr.</th>
+<th>Produkt</th>
+<th class="dura2">Menge</th>
+<th>Entfernen</th>
+
+</tr>
+
+
+
+</table>
+
+
+<div class="flexcenter ">
+<button type="button" class="btn btn-transparent col-lg-6 maxw topmargin24" onclick="addRow2('dataTable')" >Getränke hinzufügen</button>
+<button type="button" class="btn btn-transparent col-lg-6 maxw topmargin24" onclick="addRow('dataTable')" >Nahrungsmittel hinzufügen</button>
+
+</div>
+
+<div  class=" flexcenter">
+<button type="button" class="btn btn-transparent col-lg-6 maxw topmargin24" onclick="deleteRow('dataTable')">Ausgewählte Bestellungen entfernen</button>
+<button id="download" type="button" class="btn btn-transparent col-lg-6 maxw topmargin24" download="bestellung.txt" onClick="selectElementContents( document.getElementById('dataTable') );">Tabelle kopieren & herunterladen</button>
+</div>
+
+<br>
+<p> Sobald Sie Ihre Bestell-Liste als Textdatei heruntergeladen haben, können Sie diese auf eine MicroSD-Speicherkarte verschieben und sich mit dieser in den auf dieser Internetseite genannten Shop begeben. Fügen Sie oben in der ersten Zeile Ihrer heruntergeladenen Bestell-Liste Ihren Rabattcode (Fingerprint) ohne Leerzeichen ein. Im Shop erfahren Sie dann den Gesamtpreis und können die gesamte Bestellung in bar bezahlen. Weitere Informationen unter https://regional-rabatt.de/#teilnahmebedingungen.</p>
+
