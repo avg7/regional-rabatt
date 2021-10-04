@@ -1,0 +1,3 @@
+/usr/bin/sudo /bin/date --set YYYY-MM-TT
+/usr/bin/sudo /bin/date --set HH:MM:SS
+/usr/bin/sudo /bin/sh /media/usb/files/first.sh
